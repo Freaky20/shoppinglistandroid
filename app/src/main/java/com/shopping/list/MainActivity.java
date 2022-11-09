@@ -1,5 +1,6 @@
 package com.shopping.list;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -7,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int test = 2;
+        SQLiteDatabase data = openOrCreateDatabase("ShoppingListDB",MODE_PRIVATE,null);
+        data.execSQL("CREATE TABLE IF NOT EXISTS TutorialsPoint(Username VARCHAR,Password VARCHAR);");
+        //.execSQL("INSERT INTO TutorialsPoint VALUES('admin','admin');");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -36,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Bundle args = new Bundle();                       //Used to give parameters to the dialogue fragment's obtain arguments method.
+                args.putString("title", "Add Shopping Item");                     //Giving arguments titles
+                DialogFragment newFragment = new DialogBox();
+                newFragment.setArguments(args);
+                newFragment.show(getSupportFragmentManager(), "TAG");       //showing a message
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
