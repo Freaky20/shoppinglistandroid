@@ -11,6 +11,7 @@ import android.view.View;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -29,24 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SQLiteDatabase data = openOrCreateDatabase("ShoppingListDB",MODE_PRIVATE,null);
-        data.execSQL("CREATE TABLE IF NOT EXISTS TutorialsPoint(Username VARCHAR,Password VARCHAR);");
-        //.execSQL("INSERT INTO TutorialsPoint VALUES('admin','admin');");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();                       //Used to give parameters to the dialogue fragment's obtain arguments method.
-                args.putString("title", "Add Shopping Item");                     //Giving arguments titles
-                DialogFragment newFragment = new DialogBox();
-                newFragment.setArguments(args);
-                newFragment.show(getSupportFragmentManager(), "TAG");       //showing a message
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

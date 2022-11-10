@@ -6,6 +6,11 @@ public class Item {
     private boolean bought;
     private int itemID;
 
+    public Item(){
+        this.setBought(false);
+        this.setItemID(-1);
+    }
+
     public Item(String name, int quantity){
         this.setName(name);
         this.setQuantity(quantity);
