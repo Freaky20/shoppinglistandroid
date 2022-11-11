@@ -80,18 +80,22 @@ public class ItemListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (simpleCheckedTextView.isChecked()) {
                     // set cheek mark drawable and set checked property to false
+                    DataBase dataBase = new DataBase(context);
                     item.setBought(false);
-                    simpleCheckedTextView.setCheckMarkDrawable(R.drawable.btn_check_off_holo);
-                    simpleCheckedTextView.setChecked(false);
-                    data.get(position).setBought(false);
-                    //SQl not Bought
+                    if(dataBase.updateItem(item)){
+                        simpleCheckedTextView.setCheckMarkDrawable(R.drawable.btn_check_off_holo);
+                        simpleCheckedTextView.setChecked(false);
+                        data.get(position).setBought(false);
+                    }
                 } else {
                     // set cheek mark drawable and set checked property to true
                     item.setBought(true);
-                    simpleCheckedTextView.setCheckMarkDrawable(R.drawable.btn_check_on_holo);
-                    simpleCheckedTextView.setChecked(true);
-                    data.get(position).setBought(true);
-                    //SQl Bought
+                    DataBase dataBase = new DataBase(context);
+                    if(dataBase.updateItem(item)){
+                        simpleCheckedTextView.setCheckMarkDrawable(R.drawable.btn_check_on_holo);
+                        simpleCheckedTextView.setChecked(true);
+                        data.get(position).setBought(true);
+                    }
                 }
             }
         });
@@ -104,9 +108,11 @@ public class ItemListViewAdapter extends BaseAdapter {
 
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {           //Yes
-                        delete(position);
-                        //SQLDelete
-                        dialog.dismiss();
+                        DataBase dataBase = new DataBase(context);
+                        if(dataBase.deleteItem(item)){
+                            delete(position);
+                            dialog.dismiss();
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
