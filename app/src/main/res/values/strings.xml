@@ -13,4 +13,6 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="CREATE_TABLE_LOCATION">CREATE TABLE Location(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, INTEGER DEFAULT 0);</string>
+    <string name="CREATE_TABLE_ITEM">CREATE TABLE List(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, bought INTEGER DEFAULT 0);</string>
 </resources>

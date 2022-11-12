@@ -10,26 +10,26 @@ import java.util.ArrayList;
 public class DataBase {
 
     Context context;
-    SQLiteDatabase db;
-    DataBaseHelper helper;
+    SQLiteDatabase DB;
+    DataBaseHelper Help;
 
     // INITIALIZE DB HELPER AND PASS IT A CONTEXT
     public DataBase(Context context) {
         this.context = context;
-        helper = new DataBaseHelper(context);
+        Help = new DataBaseHelper(context);
     }
 
     //UPDATE Item
     public boolean updateItem(Item item){
         try{
-            db = helper.getWritableDatabase();
+            DB = Help.getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put("name", item.getName());
             values.put("quantity", item.getQuantity());
             values.put("bought", item.isBought());
 
-            int result = db.update("List", values, "id = ?", new String[] {
+            int result = DB.update("List", values, "id = ?", new String[] {
                     String.valueOf(item.getItemID())
             });
 
@@ -42,7 +42,7 @@ public class DataBase {
             e.printStackTrace();
         }
         finally {
-            helper.close();
+            Help.close();
         }
         return false;
     }
@@ -50,8 +50,8 @@ public class DataBase {
     //DELETE FROM DATABASE
     public boolean deleteItem(Item item){
         try{
-            db = helper.getWritableDatabase();
-            int result = db.delete("List", "id = ?", new String[] { String.valueOf(item.getItemID()) });
+            DB = Help.getWritableDatabase();
+            int result = DB.delete("List", "id = ?", new String[] { String.valueOf(item.getItemID()) });
 
             if (result > 0) {
                 return true;
@@ -62,7 +62,7 @@ public class DataBase {
             e.printStackTrace();
         }
         finally {
-            helper.close();
+            Help.close();
         }
         return false;
     }
@@ -70,14 +70,14 @@ public class DataBase {
     //SAVE DATA TO DB
     public boolean saveItem(Item item) {
         try {
-            db = helper.getWritableDatabase();
+            DB = Help.getWritableDatabase();
 
             ContentValues contentValues = new ContentValues();
             contentValues.put("name", item.getName());
             contentValues.put("quantity", item.getQuantity());
             contentValues.put("bought", item.isBought());
 
-            long result = db.insert("List", "id", contentValues);
+            long result = DB.insert("List", "id", contentValues);
             if (result > 0) {
                 return true;
             }
@@ -87,7 +87,7 @@ public class DataBase {
             e.printStackTrace();
         }
         finally {
-            helper.close();
+            Help.close();
         }
 
         return false;
@@ -98,9 +98,9 @@ public class DataBase {
         ArrayList<Item> arrayList = new ArrayList<>();
 
         try {
-            db = helper.getWritableDatabase();
+            DB = Help.getWritableDatabase();
 
-            Cursor cursor = db.rawQuery("SELECT * FROM List",null);
+            Cursor cursor = DB.rawQuery("SELECT * FROM List",null);
 
             Item item;
             arrayList.clear();
@@ -126,7 +126,7 @@ public class DataBase {
             e.printStackTrace();
         }
         finally {
-            helper.close();
+            Help.close();
         }
 
         return arrayList;

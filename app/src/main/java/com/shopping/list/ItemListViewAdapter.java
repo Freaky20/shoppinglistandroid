@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 
-//Method for handling list view for displaying items
+//presenting things in a list view with management techniques
 public class ItemListViewAdapter extends BaseAdapter {
-    //Declaration and Initialisation
+    //Configuration & Announcement
     private ArrayList<Item> data;                       //Array list of items
     private Context context;                            //Context of passed activity
     private static LayoutInflater inflater = null;         //Layout inflater
@@ -42,17 +42,17 @@ public class ItemListViewAdapter extends BaseAdapter {
         return position;
     }
 
-    //Method for adding an item to the list view
+    //way to adding an item to the list view
     public void add(Item item){
         data.add(item);
         notifyDataSetChanged();
     }
-    //Method for deleting an item in the list view
+    //way to deleting an item in the list view
     public void delete(int position){
         data.remove(position);
         notifyDataSetChanged();
     }
-    //Method for handling of displaying the list view and on click listeneres
+    //Way to handle the list view display and click listeners
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // See if the view needs to be inflated
