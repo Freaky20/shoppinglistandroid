@@ -38,7 +38,6 @@ import android.view.Menu;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
-    //implements NavigationView.OnNavigationItemSelectedListener {
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
     private DrawerLayout drawer;
@@ -99,7 +98,13 @@ public class MainActivity extends AppCompatActivity{
         if ((requestCode == 1) && (resultCode == RESULT_OK)) {
             Place place = PingPlacePicker.getPlace(data);
             if (place != null) {
-                Toast.makeText(this, "You selected the place: " + place.getName(), Toast.LENGTH_SHORT).show();
+                DataBase dataBase = new DataBase(this);
+                Location location = new Location(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
+                if (new DataBase(this).saveLocation(location)) {
+                    Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Not Saved", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
