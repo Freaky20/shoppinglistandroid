@@ -1,11 +1,19 @@
 package com.shopping.list;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.shopping.list.ui.home.HomeFragment;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,10 +45,20 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity{
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
     private DrawerLayout drawer;
+    private GeofencingClient geofencingClient;
+    private PendingIntent geofencePendingIntent;
+    private ArrayList<Geofence> geofences;
+    //Variables for duration of geofence and its radius
+    private static final long GEO_DURATION = 60 * 60 * 1000; // (Minute) (Hour) in seconds
+    private static final float GEOFENCE_RADIUS = 250.0f; // in meters
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +68,8 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        geofences = new ArrayList<>();
+        geofencingClient = LocationServices.getGeofencingClient(this);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -100,13 +120,90 @@ public class MainActivity extends AppCompatActivity{
             if (place != null) {
                 DataBase dataBase = new DataBase(this);
                 Location location = new Location(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
-                if (new DataBase(this).saveLocation(location)) {
+                if (dataBase.saveLocation(location)) { //!dataBase.checkLocationExist(location) &&
                     Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
-                } else {
+                    createGeofence(place.getLatLng(), dataBase.retrieveLocationID(location) + "");
+                    addGeofence();
+                }
+                else {
                     Toast.makeText(this, "Not Saved", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    public void createGeofence(LatLng latLng, String id){
+        geofences.add(new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId(id)
+
+                .setCircularRegion(latLng.latitude, latLng.longitude, GEOFENCE_RADIUS)
+                .setExpirationDuration(GEO_DURATION)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .build());
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofences);
+        return builder.build();
+    }
+
+    public void removeGeofence(){
+        geofencingClient.removeGeofences(getGeofencePendingIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Geofences removed", Toast.LENGTH_SHORT).show();
+                        // Geofences removed
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to remove geofences", Toast.LENGTH_SHORT).show();
+                        // Failed to remove geofences
+                        // ...
+                    }
+                });
+    }
+
+    public void addGeofence(){
+        geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Geofence added!", Toast.LENGTH_SHORT).show();
+                        // Geofences added
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to add geofence!", Toast.LENGTH_SHORT).show();
+                        // Failed to add geofences
+                        // ...
+                    }
+                });
+    }
+
+
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent;
+        }
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-
 import java.util.ArrayList;
 
 public class DataBase {
@@ -89,8 +88,51 @@ public class DataBase {
         return false;
     }
 
+    public boolean checkLocationExist(Location location){
+        try {
+            DB = Help.getWritableDatabase();
+
+            //Cursor cursor = db.rawQuery("SELECT * FROM Location Where name like '" + location.getName() + "'",null);
+            if(DB.query("Location", new String[] {"id","name"},"name LIKE '?'", new String[]{location.getName()+"%"}, null, null, null).getCount() > 0){
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Help.close();
+        }
+
+        return false;
+    }
+
+    public int retrieveLocationID(Location location){
+        int id = 0;
+        try {
+            DB = Help.getWritableDatabase();
+            String []columns = {"id", "name"};
+            String []selectionArgs = {location.getName() + "%"};
+            Cursor cursor = DB.query("Location", columns,"name LIKE ?",selectionArgs,null,null,null);
+            //Cursor cursor = db.query("Location", new String[] {"id","name"},"name LIKE '?'", new String[]{location.getName()+"%"}, null, null, null);
+            while (cursor.moveToNext())
+            {
+                id = cursor.getInt(0);
+
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Help.close();
+        }
+
+        return id;
+    }
+
     //Relieving locations from the SQLite Database
-    public ArrayList<Location> retrieveLocation() {
+    public ArrayList<Location> retrieveLocations() {
         ArrayList<Location> arrayList = new ArrayList<>();
 
         try {
