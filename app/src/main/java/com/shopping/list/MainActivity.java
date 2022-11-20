@@ -1,9 +1,12 @@
 package com.shopping.list;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Build;
 
 import com.shopping.list.ui.home.HomeFragment;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -56,9 +59,8 @@ public class MainActivity extends AppCompatActivity{
     private PendingIntent geofencePendingIntent;
     private ArrayList<Geofence> geofences;
     //Variables for duration of geofence and its radius
-    private static final long GEO_DURATION = 60 * 60 * 1000; // (Minute) (Hour) in seconds
     private static final float GEOFENCE_RADIUS = 250.0f; // in meters
-
+    private static final String CHANNEL_ID = "Geofence";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         geofences = new ArrayList<>();
+        createNotificationChannel();
         geofencingClient = LocationServices.getGeofencingClient(this);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -91,7 +94,32 @@ public class MainActivity extends AppCompatActivity{
                 drawer.closeDrawers();
                 return result;
             }
-        });
+        }
+        );
+        checkForNotification();
+    }
+
+    private void checkForNotification(){
+        String intent = getIntent().getStringExtra("geofenceID");
+        if(intent != null){
+            removeGeofence();
+        }
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void showPlacePicker() {
@@ -137,9 +165,8 @@ public class MainActivity extends AppCompatActivity{
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
                 .setRequestId(id)
-
                 .setCircularRegion(latLng.latitude, latLng.longitude, GEOFENCE_RADIUS)
-                .setExpirationDuration(GEO_DURATION)
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build());
     }
