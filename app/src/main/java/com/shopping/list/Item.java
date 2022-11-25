@@ -5,6 +5,7 @@ public class Item {
     private int quantity;
     private boolean bought;
     private int itemID;
+    private boolean seperator;
 
     public Item(){
         this.setBought(false);
@@ -16,6 +17,21 @@ public class Item {
         this.setQuantity(quantity);
         this.setBought(false);
         this.setItemID(-1);
+    }
+
+    public Item(String name){
+        this.setName(name);
+        this.setQuantity(0);
+        this.setBought(false);
+        this.setItemID(-1);
+    }
+
+    public Item(String name, int id, boolean seperator){
+        this.setName(name);
+        this.setQuantity(0);
+        this.setBought(false);
+        this.setItemID(id);
+        this.setSeperator(seperator);
     }
 
     public String getName() {
@@ -56,5 +72,15 @@ public class Item {
     public void setItemID(int itemID) {
 
         this.itemID = itemID;
+    }
+
+    public boolean isSeperator() {
+
+        return seperator;
+    }
+
+    public void setSeperator(boolean seperator) {
+
+        this.seperator = seperator;
     }
 }

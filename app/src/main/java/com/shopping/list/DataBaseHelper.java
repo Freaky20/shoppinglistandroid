@@ -13,8 +13,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private Context context;
 
     // Constructor
-    public DataBaseHelper(Context context){
-
+    public DataBaseHelper(Context context)
+    {
         super(context, "shopping_DB", null, 1);
         this.context = context;
     }
@@ -25,8 +25,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try
         {
-            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_ITEM));
+            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_LIST));
             db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_LOCATION));
+            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_ITEM));
         }
         catch (SQLException e)
         {
@@ -40,9 +41,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         try {
             db.execSQL("DROP TABLE IF EXISTS List");
-            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_ITEM));
+            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_LIST));
             db.execSQL("DROP TABLE IF EXISTS Location");
             db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_LOCATION));
+            db.execSQL("DROP TABLE IF EXISTS Item");
+            db.execSQL(context.getResources().getString(R.string.CREATE_TABLE_ITEM));
+
         }
         catch (SQLException e)
         {

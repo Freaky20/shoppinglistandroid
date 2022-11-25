@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shopping.list">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,10 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.shopping.list.AddItemActivity"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAaOSozlNmzZcjQ_8rgnSiZ1CX92wuskus"/>
-        <receiver android:name=".GeofenceBroadcastReceiver"/>
+            android:value="AIzaSyBmgZS4vsjyULHz4q3e_44sTE9wyw8FbRg" />
+
+        <receiver android:name="com.shopping.list.GeofenceBroadcastReceiver" />
+
         <activity
             android:name="com.shopping.list.MainActivity"
             android:label="@string/app_name"

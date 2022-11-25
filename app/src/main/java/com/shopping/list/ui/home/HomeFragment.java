@@ -14,11 +14,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.shopping.list.DataBase;
-import com.shopping.list.DialogBox;
 import com.shopping.list.Item;
 import com.shopping.list.ItemListViewAdapter;
+import com.shopping.list.MainActivity;
 import com.shopping.list.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment{
 
@@ -30,19 +29,19 @@ public class HomeFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         listView = (ListView) root.findViewById(R.id.itemListView);
         loadData();
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+/*        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogBox newFragment = new DialogBox();
                 newFragment.show(getActivity().getSupportFragmentManager(), "DIALOG");
             }
-        });
+        });*/
         HomeViewModel model = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         model.getSelected().observe(this, new Observer<Item>() {
             @Override
             public void onChanged(@Nullable Item item) {
-                if (new DataBase(getActivity()).saveItem(item)) {
+                if (new DataBase(getActivity()).saveListItem(item)) {
                     Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Not Saved", Toast.LENGTH_SHORT).show();
@@ -50,12 +49,20 @@ public class HomeFragment extends Fragment{
                 loadData();
             }
         });
+
+        ((MainActivity)getActivity()).setFragmentRefreshListener(new MainActivity.FragmentRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                // Refresh Your Fragment
+            }
+        });
         return root;
     }
 
     private void loadData() {
         DataBase dataBase = new DataBase(getActivity());
-        adapter = new ItemListViewAdapter(getActivity(), dataBase.retrieveItems());             //List view displaying items
+        adapter = new ItemListViewAdapter(getActivity(), dataBase.retrieveListItems());             //List view displaying items
         listView.setAdapter(adapter);
     }
 }

@@ -1,24 +1,14 @@
 package com.shopping.list;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.shopping.list.ui.home.HomeViewModel;
 
-import java.util.List;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DialogBox extends DialogFragment {
@@ -38,7 +28,7 @@ public class DialogBox extends DialogFragment {
     public AlertDialog.Builder buildStandardDialog(){   //Method for creating a two-button alert dialogue box
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_item, null);
-        final Spinner spinner = (Spinner) view.findViewById(R.id.itemQty);                 //Getting quantity from edit text
+/*        final Spinner spinner = (Spinner) view.findViewById(R.id.itemQty);                 //Getting quantity from edit text
 
         spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, quantity));
         builder.setView(view)
@@ -54,7 +44,7 @@ public class DialogBox extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {           //No button
                         dialog.dismiss();
                     }
-                });
+                });*/
         return builder;
     }
 }
