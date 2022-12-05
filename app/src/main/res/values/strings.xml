@@ -20,4 +20,5 @@
     <string name="channel_name">Geofence Notification</string>
     <string name="channel_description">Display notifications for Geofence locations</string>
     <string name="ITEM_TABLE">Item</string>
+    <string name="recipes_list">Recipes List</string>
 </resources>

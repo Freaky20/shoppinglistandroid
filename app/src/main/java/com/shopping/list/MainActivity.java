@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_home, R.id.nav_recipe, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -127,6 +127,13 @@ public class MainActivity extends AppCompatActivity{
         checkForNotification();
         DataBase dataBase = new DataBase(this);
         dataBase.setupItem();
+    }
+
+    public void openRecipeDetailsFragment(View view, String Id,String name){
+        Bundle bundle = new Bundle();
+        bundle.putString("Id", Id);
+        bundle.putString("name", name);
+        Navigation.findNavController(view).navigate(R.id.recipeDetailsFragment, bundle);
     }
 
     public interface FragmentRefreshListener{
