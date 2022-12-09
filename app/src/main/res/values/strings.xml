@@ -5,16 +5,17 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_asc">Ascending</string>
+    <string name="action_desc">Descending</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Shopping List</string>
+    <string name="menu_gallery">Shop Add</string>
+    <string name="menu_slideshow">Shop List</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="CREATE_TABLE_LOCATION">CREATE TABLE Location(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, geofence INTEGER DEFAULT 0);</string>
-    <string name="CREATE_TABLE_LIST">CREATE TABLE List(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, bought INTEGER DEFAULT 0);</string>
+    <string name="CREATE_TABLE_LIST">CREATE TABLE List(id INTEGER PRIMARY KEY AUTOINCREMENT, itemID INTEGER NOT NULL, quantity INTEGER NOT NULL, bought INTEGER DEFAULT 0);</string>
     <string name="CREATE_TABLE_ITEM">CREATE TABLE Item(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);</string>
     <string name="geofence_transition_invalid_type">Invalid Geofence transition type</string>
     <string name="channel_name">Geofence Notification</string>

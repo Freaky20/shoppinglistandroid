@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.shopping.list.ui.ItemList;
+
 import java.util.ArrayList;
 
 public class DataBase {
@@ -82,9 +84,9 @@ public class DataBase {
 
                 ContentValues insertValues = new ContentValues();
 
-                for (int i = 0; i < items.length; i++) {
+                for (String item : items) {
 
-                    insertValues.put("name", items[i]);
+                    insertValues.put("name", item);
                     DB.insert(context.getString(R.string.ITEM_TABLE), null, insertValues);
                 }
             }
@@ -140,7 +142,7 @@ public class DataBase {
     }
 
     //SAVE Location TO DB
-    public boolean saveLocation(Location location) {
+    public int saveLocation(Location location) {
         try {
             DB = Help.getWritableDatabase();
 
@@ -152,7 +154,7 @@ public class DataBase {
 
             long result = DB.insert("Location", "id", values);
             if (result > 0) {
-                return true;
+                return (int)result;
             }
 
         } catch (SQLException e) {
@@ -161,15 +163,18 @@ public class DataBase {
             Help.close();
         }
 
-        return false;
+        return 0;
     }
 
     public boolean checkLocationExist(Location location){
         try {
             DB = Help.getWritableDatabase();
-
-            //Cursor cursor = db.rawQuery("SELECT * FROM Location Where name like '" + location.getName() + "'",null);
-            if(DB.query("Location", new String[] {"id","name"},"name LIKE '?'", new String[]{location.getName()+"%"}, null, null, null).getCount() > 0){
+            String []columns = {"id", "name"};
+            String []selectionArgs = {location.getName() + "%"};
+            //DB.query("Location", columns,"name LIKE ?",selectionArgs,null,null,null);
+            //Cursor cursor = DB.rawQuery("SELECT * FROM Location Where name like '" + location.getName() + "'",null);
+            //if(DB.query("Location", new String[] {"id","name"},"name LIKE '?'", new String[]{location.getName()+"%"}, null, null, null).getCount() > 0){
+            if(DB.query("Location", columns,"name LIKE ?",selectionArgs,null,null,null).getCount() > 0){
                 return true;
             }
 
@@ -289,7 +294,7 @@ public class DataBase {
     }
 
     //SAVE DATA TO DB
-    public boolean saveItem(Item item) {
+    public int saveItem(Item item) {
         try {
             DB = Help.getWritableDatabase();
 
@@ -298,7 +303,7 @@ public class DataBase {
 
             long result = DB.insert(context.getString(R.string.ITEM_TABLE), "id", contentValues);
             if (result > 0) {
-                return true;
+                return (int)result;
             }
 
         } catch (SQLException e) {
@@ -307,7 +312,7 @@ public class DataBase {
             Help.close();
         }
 
-        return false;
+        return 0;
     }
 
     //Relieving items from the SQL lite Database
@@ -400,7 +405,6 @@ public class DataBase {
 
                 item = new Item();
                 item.setName(name);
-                item.setQuantity(0);
                 item.setItemID(id);
 
                 arrayList.add(item);
@@ -415,17 +419,38 @@ public class DataBase {
         return arrayList;
     }
 
+    public int[] checkItemExist(int id){
+        int[] values = new int[2];
+        try {
+            DB = Help.getWritableDatabase();
+            Cursor cursor = DB.rawQuery("SELECT id, quantity FROM List Where itemID = " + id,null);
+
+            if(cursor.getCount() > 0){
+                while (cursor.moveToNext()) {
+                    values[0] = cursor.getInt(0);
+                    values[1] = cursor.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Help.close();
+        }
+
+        return values;
+    }
+
     //UPDATE Item
-    public boolean updateListItem(Item item){
+    public boolean updateListItem(ItemList item){
         try{
             DB = Help.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put("name", item.getName());
             values.put("quantity", item.getQuantity());
             values.put("bought", item.isBought());
 
-            int result = DB.update("List", values, "id = ?", new String[] { String.valueOf(item.getItemID()) });
+            int result = DB.update("List", values, "id = ?", new String[] { String.valueOf(item.getItemListID()) });
 
             if (result > 0) {
                 return true;
@@ -440,10 +465,10 @@ public class DataBase {
     }
 
     //DELETE FROM DATABASE
-    public boolean deleteListItem(Item item){
+    public boolean deleteListItem(ItemList item){
         try{
             DB = Help.getWritableDatabase();
-            int result = DB.delete("List", "id = ?", new String[] { String.valueOf(item.getItemID()) });
+            int result = DB.delete("List", "id = ?", new String[] { String.valueOf(item.getItemListID()) });
 
             if (result > 0) {
                 return true;
@@ -458,12 +483,12 @@ public class DataBase {
     }
 
     //SAVE DATA TO DB
-    public boolean saveListItem(Item item) {
+    public boolean saveListItem(ItemList item) {
         try {
             DB = Help.getWritableDatabase();
 
             ContentValues contentValues = new ContentValues();
-            contentValues.put("name", item.getName());
+            contentValues.put("itemID", item.getItemID());
             contentValues.put("quantity", item.getQuantity());
             contentValues.put("bought", item.isBought());
 
@@ -482,29 +507,40 @@ public class DataBase {
     }
 
     //Relieving items from the SQL lite Database
-    public ArrayList<Item> retrieveListItems() {
-        ArrayList<Item> arrayList = new ArrayList<>();
+    public ArrayList<ItemList> retrieveListItems(int sort) {
+        ArrayList<ItemList> arrayList = new ArrayList<>();
 
         try {
             DB = Help.getWritableDatabase();
 
-            Cursor cursor = DB.rawQuery("SELECT * FROM List",null);
+            String extra = "";
+            switch (sort){
+                case 1:
+                    extra = " ORDER by Item.name ASC";
+                    break;
+                case 2:
+                    extra = " ORDER by Item.name DESC";
+                    break;
+            }
+            Cursor cursor = DB.rawQuery("SELECT List.id, List.itemID, List.quantity, List.bought, Item.name FROM List JOIN Item on List.itemID = Item.id" + extra,null);
 
-            Item item;
+            ItemList item;
             arrayList.clear();
 
             while (cursor.moveToNext())
             {
                 int id = cursor.getInt(0);
-                String name = cursor.getString(1);
+                int itemID = cursor.getInt(1);
                 int quantity = cursor.getInt(2);
                 boolean bought = (cursor.getInt(3) != 0);
+                String name = cursor.getString(4);
 
-                item = new Item();
-                item.setName(name);
+                item = new ItemList();
+                item.setItemID(itemID);
                 item.setQuantity(quantity);
                 item.setBought(bought);
-                item.setItemID(id);
+                item.setItemListID(id);
+                item.setName(name);
 
                 arrayList.add(item);
             }

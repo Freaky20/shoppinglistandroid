@@ -20,22 +20,26 @@ public class ItemViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Item> data;
     public AddItem addItem;                                     //Link shop interface
+    private String searchText;
 
     // View Type for Separators
     private static final int ITEM_VIEW_TYPE_SEPARATOR = 0;
     // View Type for Regular rows
     private static final int ITEM_VIEW_TYPE_REGULAR = 1;
+    // View Type for Regular rows
+    private static final int ITEM_VIEW_TYPE_ADD = 2;
     // Types of Views that need to be handled
     // -- Separators and Regular rows --
-    private static final int ITEM_VIEW_TYPE_COUNT = 2;
+    private static final int ITEM_VIEW_TYPE_COUNT = 3;
 
     public interface AddItem{                                     //Interface for sending the position and id of the shopping list back to the main activity
-        void sendItem(String name, int quantity);
+        void sendItem(int quantity, int id);
     }
 
-    public ItemViewAdapter(Context context, ArrayList<Item> list) {
+    public ItemViewAdapter(Context context, ArrayList<Item> list, String searchText) {
         this.context = context;
         this.data = list;
+        this.searchText = this.searchText;
     }
 
     @Override //Return array list size
@@ -86,10 +90,14 @@ public class ItemViewAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        boolean isSection = data.get(position).isSeperator();
+        boolean isSection = data.get(position).isSeparator();
+        boolean isAdd = data.get(position).isAddItem();
 
         if (isSection) {
             return ITEM_VIEW_TYPE_SEPARATOR;
+        }
+        else if(isAdd){
+            return ITEM_VIEW_TYPE_ADD;
         }
         else {
             return ITEM_VIEW_TYPE_REGULAR;
@@ -117,6 +125,9 @@ public class ItemViewAdapter extends BaseAdapter {
                 // If its a section ?
                 view = inflater.inflate(R.layout.seperator_item_list, null);
             }
+            else if(itemViewType == ITEM_VIEW_TYPE_ADD){
+                view = inflater.inflate(R.layout.add_item_list, null);
+            }
             else {
                 // Regular row
                 view = inflater.inflate(R.layout.shopping_item_list, null);
@@ -132,6 +143,46 @@ public class ItemViewAdapter extends BaseAdapter {
 
             TextView separatorView = (TextView) view.findViewById(R.id.separator);
             separatorView.setText(item.getName());
+        }
+        else if(itemViewType == ITEM_VIEW_TYPE_ADD){
+            TextView addView = (TextView) view.findViewById(R.id.addItem);
+            addView.setText(item.getName());
+            addView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {                       //Delete image click listener that displays a dialog to delete an item
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    final View myView = inflat.inflate(R.layout.dialog_add_item, null);
+                    builder.setView(myView);
+                    final TextView itemName = (TextView) myView.findViewById(R.id.itemName);
+                    final EditText quantity = (EditText) myView.findViewById(R.id.itemQty);
+
+                    itemName.setText(searchText);
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {           //Yes
+                            if(!quantity.getText().toString().isEmpty()){
+                                int amount = Integer.parseInt(quantity.getText().toString());
+                                DataBase db = new DataBase(context);
+                                int itemID = db.saveItem(new Item(searchText));
+                                if(itemID > 0){
+                                    addItem = (AddItem) parent.getContext();
+                                    addItem.sendItem(amount, itemID);
+                                    dialog.dismiss();
+                                }
+
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {       //No
+                            // User cancelled the dialog
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
         }
         else {
             // If regular
@@ -153,9 +204,12 @@ public class ItemViewAdapter extends BaseAdapter {
 
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {           //Yes
-                            addItem = (AddItem) parent.getContext();
-                            addItem.sendItem(item.getName(), Integer.parseInt(quantity.getText().toString()));
-                            dialog.dismiss();
+                            if(!quantity.getText().toString().isEmpty()){
+                                int amount = Integer.parseInt(quantity.getText().toString());
+                                addItem = (AddItem) parent.getContext();
+                                addItem.sendItem(amount, item.getItemID());
+                                dialog.dismiss();
+                            }
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -180,7 +234,7 @@ public class ItemViewAdapter extends BaseAdapter {
                         public void onClick(DialogInterface dialog, int id) {           //Yes
                             DataBase dataBase = new DataBase(context);
                             if (dataBase.deleteItem(item)) {
-                                if(getItem(position - 1).isSeperator() && getItem(position + 1).isSeperator()){
+                                if(getItem(position - 1).isSeparator() && getItem(position + 1).isSeparator()){
                                     delete(position - 1);
                                     delete(position - 1);
                                 }

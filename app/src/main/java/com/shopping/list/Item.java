@@ -2,36 +2,27 @@ package com.shopping.list;
 
 public class Item {
     private String name;
-    private int quantity;
-    private boolean bought;
     private int itemID;
-    private boolean seperator;
+    private boolean separator;
+    private boolean addItem;
 
     public Item(){
-        this.setBought(false);
         this.setItemID(-1);
-    }
-
-    public Item(String name, int quantity){
-        this.setName(name);
-        this.setQuantity(quantity);
-        this.setBought(false);
-        this.setItemID(-1);
+        this.setAddItem(false);
+        this.setSeparator(false);
     }
 
     public Item(String name){
         this.setName(name);
-        this.setQuantity(0);
-        this.setBought(false);
         this.setItemID(-1);
+        this.setAddItem(false);
     }
 
-    public Item(String name, int id, boolean seperator){
+    public Item(String name, int id, boolean separator){
         this.setName(name);
-        this.setQuantity(0);
-        this.setBought(false);
         this.setItemID(id);
-        this.setSeperator(seperator);
+        this.setSeparator(separator);
+        this.setAddItem(false);
     }
 
     public String getName() {
@@ -44,26 +35,6 @@ public class Item {
         this.name = name;
     }
 
-    public int getQuantity() {
-
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-
-        this.quantity = quantity;
-    }
-
-    public boolean isBought() {
-
-        return bought;
-    }
-
-    public void setBought(boolean bought) {
-
-        this.bought = bought;
-    }
-
     public int getItemID() {
 
         return itemID;
@@ -74,13 +45,23 @@ public class Item {
         this.itemID = itemID;
     }
 
-    public boolean isSeperator() {
+    public boolean isSeparator() {
 
-        return seperator;
+        return separator;
     }
 
-    public void setSeperator(boolean seperator) {
+    public void setSeparator(boolean separator) {
 
-        this.seperator = seperator;
+        this.separator = separator;
+    }
+
+    public boolean isAddItem() {
+
+        return addItem;
+    }
+
+    public void setAddItem(boolean addItem) {
+
+        this.addItem = addItem;
     }
 }

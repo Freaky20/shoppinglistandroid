@@ -15,7 +15,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // Constructor
     public DataBaseHelper(Context context)
     {
-        super(context, "shopping_DB", null, 1);
+        super(context, "shopping_DB", null, 2);
         this.context = context;
     }
 
