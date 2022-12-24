@@ -4,11 +4,13 @@ android:layout_width="match_parent"
 android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/separator"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#40B5E7"
         android:text="New Text"
-        android:id="@+id/separator"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        style="?android:listSeparatorTextViewStyle" />
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 </RelativeLayout>

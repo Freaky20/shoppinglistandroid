@@ -9,7 +9,12 @@
         android:id="@+id/nav_home"
         android:name="com.shopping.list.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_send"
+            app:destination="@id/nav_send" />
+
+    </fragment>
 
     <!--    <fragment
             android:id="@+id/nav_gallery"
@@ -23,11 +28,11 @@
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
-    <fragment
+<!--    <fragment
         android:id="@+id/nav_tools"
         android:name="com.shopping.list.ui.tools.ToolsFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_tools" />-->
 
     <fragment
         android:id="@+id/nav_share"
@@ -39,7 +44,11 @@
         android:id="@+id/nav_send"
         android:name="com.shopping.list.ui.send.SendFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_send">
+        <argument
+            android:name="shopID"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/recipeDetailsFragment"

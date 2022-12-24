@@ -1,24 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
+    app:dragEdge="right"
+    app:mode="same_level">
 
-    <CheckedTextView
-        android:id="@+id/nameLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/delete_button"
-        android:text="Item"
-        android:textSize="30sp" />
-    <ImageView
-        android:id="@+id/delete_button"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:layout_alignParentRight="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_delete_black"/>
-</RelativeLayout>
+        android:layout_height="match_parent" >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/delete_button"
+                android:paddingTop="4dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@color/material_blue500"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:src="@drawable/ic_edit" />
+
+            <ImageView
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingTop="4dp"
+                android:scaleType="fitXY"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@android:color/holo_red_dark"
+                android:src="@drawable/ic_delete" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <CheckedTextView
+                android:id="@+id/nameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:checked="false"
+                android:text="Item"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/linkedList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameLabel"
+                android:layout_alignParentLeft="true"
+                android:textSize="16sp"
+                android:visibility="gone">
+
+            </TextView>
+
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

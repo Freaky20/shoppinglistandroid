@@ -1,103 +1,206 @@
 package com.shopping.list.ui.home;
 
+import android.content.Context;
+
+import android.content.DialogInterface;
+
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
+
 import android.view.Menu;
+
 import android.view.MenuInflater;
+
 import android.view.MenuItem;
+
 import android.view.View;
+
 import android.view.ViewGroup;
-import android.widget.ListView;
+
+import android.widget.EditText;
+
+import android.widget.TextView;
+
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.AlertDialog;
+
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModelProviders;
 
-import com.shopping.list.DataBase;
-import com.shopping.list.Item;
-import com.shopping.list.ItemListViewAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.shopping.list.database.DataBase;
+
 import com.shopping.list.MainActivity;
+
 import com.shopping.list.R;
-import com.shopping.list.ui.ItemList;
+
+import com.shopping.list.model.ShoppingList;
+
+import com.shopping.list.adapter.ShoppingListViewAdapter;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment{
-
-    private ItemListViewAdapter adapter;
-    private ListView listView;
-    private ArrayList<ItemList> list;
+ public class HomeFragment extends Fragment
+ {
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<ShoppingList> list;
+    private View root;
+    private TextView emptyView;
+    private DataBase dataBase;
+    private FirebaseFirestore db;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+         db=FirebaseFirestore.getInstance();
         setHasOptionsMenu(true);
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        listView = (ListView) root.findViewById(R.id.itemListView);
+    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState)
+    {
+        root = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = (RecyclerView) root.findViewById(R.id.shopping_recycler_view);
+        emptyView = (TextView) root.findViewById(R.id.emptyElement);
+        recyclerView.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(mLayoutManager);
+        dataBase = new DataBase(getActivity());
         loadData(0);
-/*        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogBox newFragment = new DialogBox();
-                newFragment.show(getActivity().getSupportFragmentManager(), "DIALOG");
-            }
-        });*/
         HomeViewModel model = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-/*        model.getSelected().observe(this, new Observer<Item>() {
-            @Override
-            public void onChanged(@Nullable Item item) {
-                if (new DataBase(getActivity()).saveListItem(item)) {
-                    Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "Not Saved", Toast.LENGTH_SHORT).show();
-                }
-                loadData();
-            }
-        });*/
-
-        ((MainActivity)getActivity()).setFragmentRefreshListener(new MainActivity.FragmentRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData(0);
-                // Refresh Your Fragment
-            }
-        });
         return root;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.sort, menu);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.add, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_asc:
-                loadData(1);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.add:
+                addShopList();
                 return true;
-            case R.id.action_desc:
-                loadData(2);
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void loadData(int sort) {
-        DataBase dataBase = new DataBase(getActivity());
-        list = dataBase.retrieveListItems(sort);
-        adapter = new ItemListViewAdapter(getActivity(), list);             //List view displaying items
-        listView.setAdapter(adapter);
+    private void addShopList(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add Shop List");
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View myView = inflater.inflate(R.layout.dialog_add_shop_list, null);
+        builder.setView(myView);
+        final EditText shopName = (EditText) myView.findViewById(R.id.shopName);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                if(!shopName.getText().toString().isEmpty())
+                {
+                    if(!dataBase.checkShoppingListExist(shopName.getText().toString()))
+                    {
+                        int itemID = dataBase.saveShopList(new ShoppingList(shopName.getText().toString()));
+                        if (itemID > 0)
+                        {
+                            loadData(0);
+                            dialog.dismiss();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Item already exists!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
+        );
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                dialog.dismiss();
+            }
+        }
+        );
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
-}
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        ((ShoppingListViewAdapter) adapter).setOnItemClickListener(new ShoppingListViewAdapter.MyClickListener()
+        {
+            @Override
+            public void onItemClick(int position, View v)
+            {
+                ((MainActivity) getActivity()).openShopListFragment(root, list.get(position).getShoppingListID());
+            }
+        }
+        );
+    }
+
+    private void loadData(int sort)
+    {
+        list = dataBase.retrieveShopList();
+        if (list.isEmpty())
+        {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+        adapter = new ShoppingListViewAdapter(getContext(), list);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+        {
+            @Override
+            public void onChanged()
+            {
+                super.onChanged();
+                checkEmpty();
+            }
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount)
+            {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount)
+            {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+            void checkEmpty()
+            {
+                emptyView.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        }
+        );
+        recyclerView.setAdapter(adapter);
+    }
+ }

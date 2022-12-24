@@ -7,4 +7,9 @@
         android:title="@string/places_autocomplete_search_hint"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+    <item
+        android:id="@+id/add"
+        android:icon="@drawable/ic_add"
+        android:title="@string/add_item"
+        app:showAsAction="collapseActionView|ifRoom" />
 </menu>

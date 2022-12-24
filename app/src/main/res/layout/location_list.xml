@@ -8,17 +8,28 @@
         android:id="@+id/nameLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="false"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/delete_button"
+        android:checked="false"
         android:text="Item"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shopNameLabel"
+        android:textSize="18sp"
+        android:layout_below="@id/nameLabel"
+        android:text="shopName">
+
+    </TextView>
+
     <ImageView
         android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
+        android:layout_width="47dp"
+        android:layout_height="59dp"
         android:layout_alignParentRight="true"
+        android:paddingTop="4dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_delete_black"/>
+        android:src="@drawable/ic_delete" />
 </RelativeLayout>
