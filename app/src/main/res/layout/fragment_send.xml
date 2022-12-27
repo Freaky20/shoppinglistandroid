@@ -5,17 +5,27 @@
     android:layout_height="match_parent">
 
     <ListView
+        android:id="@+id/itemListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/itemListView"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/emptyElement"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_list_list"
-        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:textStyle="bold" />
+        android:text="@string/empty_list_list"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/itemListView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

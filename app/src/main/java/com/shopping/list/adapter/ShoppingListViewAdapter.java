@@ -74,7 +74,7 @@ import com.shopping.list.database.DataBase;
              holder.label.setTextColor(Color.parseColor("#FFFFFF"));
              holder.bought.setTextColor(Color.parseColor("#FFFFFF"));
              holder.total.setTextColor(Color.parseColor("#FFFFFF"));
-             holder.deleteImage.setImageResource(R.drawable.ic_add);
+             holder.deleteImage.setImageResource(R.drawable.list);
              holder.cardView.setCardBackgroundColor(Color.parseColor("#40B5E7"));
          }
      }

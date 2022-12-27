@@ -109,13 +109,13 @@ import androidx.appcompat.app.AlertDialog;
         String shopNameText="";
         if(location.isGeofence())
         {
-            simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
+            //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
             simpleCheckedTextView.setChecked(true);
             shopNameText=dataBase.getShopListName(location.getShoppingListID());
         }
         else
         {
-            simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
+            //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
             simpleCheckedTextView.setChecked(false);
         }
         shopName.setText(shopNameText);

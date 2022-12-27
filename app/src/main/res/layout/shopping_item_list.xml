@@ -3,69 +3,91 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:dragEdge="right"
     app:mode="same_level">
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/edit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/delete_button"
-                android:paddingTop="4dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:background="@color/material_blue500"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                android:src="@drawable/ic_edit" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/delete_button"
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:paddingTop="4dp"
-                android:scaleType="fitXY"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:background="@android:color/holo_red_dark"
-                android:src="@drawable/ic_delete" />
+                >
+
+                <ImageView
+                    android:id="@+id/edit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_toStartOf="@+id/delete_button"
+                    android:padding="10dp"
+                    app:tint="@color/material_blue500"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_edit"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:padding="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@android:color/holo_red_dark" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="12dp">
 
             <CheckedTextView
+                android:drawableEnd="@null"
+                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
                 android:id="@+id/nameLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:checked="false"
-                android:text="Item"
-                android:textSize="30sp" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:checked="false" android:textStyle="bold"
+                android:fontFamily="@font/roboto"
+                android:text="@string/item"
+                android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/linkedList"
+            <TextView android:layout_marginStart="30dp"
+                android:id="@+id/linkedList" android:textStyle="italic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameLabel"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:textSize="16sp"
                 android:visibility="gone">
 

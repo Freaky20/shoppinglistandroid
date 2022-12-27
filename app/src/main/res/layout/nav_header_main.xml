@@ -16,25 +16,27 @@
         android:id="@+id/imageView"
         android:layout_width="64dp"
         android:layout_height="90dp"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:adjustViewBounds="true"
         app:srcCompat="@drawable/new_logo_without_bg" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:paddingTop="4dp"
-
         android:text="@string/nav_header_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/nav_header_subtitle"
         android:textColor="@android:color/black"
-        android:visibility="gone"
-        android:text="@string/nav_header_subtitle" />
+        android:visibility="gone" />
 
 </LinearLayout>

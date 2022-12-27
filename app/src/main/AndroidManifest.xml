@@ -17,6 +17,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBY1jz7IYOsN8r_KrkarCr3kfcs5_ztRHs" />
 

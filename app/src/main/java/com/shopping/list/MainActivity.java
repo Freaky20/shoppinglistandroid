@@ -14,11 +14,15 @@ import android.content.Context;
 
 import android.content.SharedPreferences;
 
+import android.content.pm.PackageManager;
+
 import android.content.Intent;
 
 import android.os.Build;
 
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 
 import android.widget.Toast;
 
@@ -66,6 +70,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.android.material.navigation.NavigationView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -96,6 +102,8 @@ import androidx.navigation.NavController;
 
 import androidx.navigation.Navigation;
 
+import androidx.navigation.fragment.NavHostFragment;
+
 import androidx.navigation.ui.AppBarConfiguration;
 
 import androidx.navigation.ui.NavigationUI;
@@ -113,6 +121,7 @@ import androidx.navigation.ui.NavigationUI;
     private static final float GEOFENCE_RADIUS = 300.0f;
     private static final String CHANNEL_ID = "Geofence";
     private FirebaseAuth mAuth;
+    BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -122,17 +131,19 @@ import androidx.navigation.ui.NavigationUI;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+ //       drawer = findViewById(R.id.drawer_layout);
+        bottomNavigation = findViewById(R.id.nav_view);
         geofence = new ArrayList<>();
         createNotificationChannel();
         mAuth = FirebaseAuth.getInstance();
         geofencingClient = LocationServices.getGeofencingClient(this);
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_slideshow, R.id.nav_share, R.id.nav_send).setDrawerLayout(drawer).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navigationView,navController);
-        NavigationUI.setupActionBarWithNavController(this,navController,drawer);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        NavigationUI.setupWithNavController(bottomNavigation, navController);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(bottomNavigation, navController);
+        bottomNavigation.setOnNavigationItemSelectedListener(this.navigationItemSelectedListener);
+/*        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
@@ -160,7 +171,7 @@ import androidx.navigation.ui.NavigationUI;
                 return result;
             }
         }
-        );
+        );*/
         final FloatingActionButton fab = this.findViewById(R.id.fab);
         dataBase = new DataBase(this);
         dataBase.setupItem();
@@ -257,7 +268,7 @@ import androidx.navigation.ui.NavigationUI;
     public void openRecipeDetailsFragment(View view, String Id,String name)
     {
         Bundle bundle = new Bundle();
-          bundle.putString("Id", Id);
+        bundle.putString("Id", Id);
         bundle.putString("name", name);
         Navigation.findNavController(view).navigate(R.id.recipeDetailsFragment, bundle);
     }
@@ -385,6 +396,10 @@ import androidx.navigation.ui.NavigationUI;
 
     public void addGeofence(int geofenceID)
     {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
         geofencingClient.addGeofences(getGeofencingRequest(),getGeofencePendingIntent(geofenceID)).addOnSuccessListener(this, new OnSuccessListener<Void>()
                 {
                     @Override
@@ -418,4 +433,27 @@ import androidx.navigation.ui.NavigationUI;
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
+
+     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=new BottomNavigationView.OnNavigationItemSelectedListener()
+     {
+         @Override
+         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+         {
+             if (menuItem.getItemId()==R.id.nav_logout)
+             {
+                 AuthUI.getInstance().signOut(MainActivity.this).addOnCompleteListener(new OnCompleteListener<Void>()
+                                                {
+                                                    public void onComplete(@NonNull Task<Void> task)
+                                                    {
+                                                        finish();
+                                                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                         );
+             }
+             boolean result=NavigationUI.onNavDestinationSelected(menuItem, navController);
+             return result;
+         }
+     };
  }

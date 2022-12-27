@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ListView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/itemView"/>
+        android:layout_height="match_parent"
+        android:id="@+id/itemView"
+        android:layout_marginBottom="60dp"
+        tools:ignore="MissingConstraints,UnknownIdInLayout" />
 
     <TextView
         android:id="@+id/emptyElement"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="@string/empty_list_item"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center"
         android:textStyle="bold" />
 
 <!--    <TextView
@@ -31,4 +35,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

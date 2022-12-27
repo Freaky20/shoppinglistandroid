@@ -150,6 +150,7 @@ import java.util.ArrayList;
     public void onResume()
     {
         super.onResume();
+        adapter.notifyDataSetChanged();
         ((ShoppingListViewAdapter) adapter).setOnItemClickListener(new ShoppingListViewAdapter.MyClickListener()
         {
             @Override

@@ -235,13 +235,13 @@ import com.shopping.list.database.DataBase;
         {
             view = inflater.inflate(R.layout.seperator_item_list, null);
             TextView separatorView = (TextView) view.findViewById(R.id.separator);
-            separatorView.setText("purchase");
+            separatorView.setText("Purchased Items");
         }
         else if (IL.get(p).isClearBought())
         {
             view = inflater.inflate(R.layout.clear_item_list, null);
             TextView separatorView = (TextView) view.findViewById(R.id.clear);
-            separatorView.setText("click here to remove tick items");
+            separatorView.setText("Remove tick items");
             separatorView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -293,14 +293,15 @@ import com.shopping.list.database.DataBase;
             final ItemList item = IL.get(p);
             if (item.isBought())
             {
-                simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
+                //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
                 simpleCheckedTextView.setPaintFlags(simpleCheckedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 simpleCheckedTextView.setChecked(true);
             }
             else
             {
-                simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
+                //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
                 simpleCheckedTextView.setPaintFlags(simpleCheckedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                simpleCheckedTextView.setTextColor(Text.getColor(android.R.color.black));
                 simpleCheckedTextView.setChecked(false);
             }
             simpleCheckedTextView.setText(item.getName() + " x " + item.getQuantity());

@@ -1,35 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
+    app:dragEdge="right"
+    app:mode="same_level">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:layout_height="match_parent">
 
-    <CheckedTextView
-        android:id="@+id/nameLabel"
+            <ImageView
+                android:id="@+id/delete_button"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_delete"
+                app:tint="@android:color/holo_red_dark" /> />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/delete_button"
-        android:checked="false"
-        android:text="Item"
-        android:textSize="24sp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/shopNameLabel"
-        android:textSize="18sp"
-        android:layout_below="@id/nameLabel"
-        android:text="shopName">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="6dp">
 
-    </TextView>
+            <CheckedTextView
+                android:drawableEnd="@null"
+                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+                android:id="@+id/nameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:checked="false"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Item bane bane bane bane ab"
+                android:textSize="24sp" />
 
-    <ImageView
-        android:id="@+id/delete_button"
-        android:layout_width="47dp"
-        android:layout_height="59dp"
-        android:layout_alignParentRight="true"
-        android:paddingTop="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_delete" />
-</RelativeLayout>
+            <TextView
+                android:id="@+id/shopNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameLabel"
+                android:fontFamily="@font/roboto"
+                android:text="shopName"
+                android:textSize="18sp">
+
+            </TextView>
+
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

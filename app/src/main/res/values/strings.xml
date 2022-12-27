@@ -38,4 +38,6 @@
     <string name="link">Link</string>
     <string name="delete">Delete</string>
     <string name="recipes_list">Recipes List</string>
+    <string name="close">Close</string>
+    <string name="item">Item</string>
 </resources>
