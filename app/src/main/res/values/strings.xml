@@ -10,10 +10,10 @@
 
     <string name="menu_home">Shopping Lists</string>
     <string name="menu_gallery">Shop Add</string>
-    <string name="menu_slideshow">Shop Add</string>
+    <string name="menu_slideshow">Shop Locations</string>
     <string name="menu_tools">Help</string>
     <string name="menu_share">Item list</string>
-    <string name="menu_send">Shopping List</string>
+    <string name="menu_send">Shopping Lists</string>
     <string name="CREATE_TABLE_SHOPPING_LIST">CREATE TABLE Shopping(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, lastLocation INTEGER NULL);</string>
     <string name="CREATE_TABLE_LIST">CREATE TABLE List(id INTEGER PRIMARY KEY AUTOINCREMENT, itemID INTEGER NOT NULL, quantity INTEGER NOT NULL, bought INTEGER DEFAULT 0, shopID INTEGER NOT NULL, deleted INTEGER DEFAULT 0);</string>
     <string name="CREATE_TABLE_ITEM">CREATE TABLE Item(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);</string>

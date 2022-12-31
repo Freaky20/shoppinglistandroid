@@ -66,10 +66,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.android.gms.tasks.Task;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import com.google.android.material.navigation.NavigationView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,8 +98,6 @@ import androidx.navigation.NavController;
 
 import androidx.navigation.Navigation;
 
-import androidx.navigation.fragment.NavHostFragment;
-
 import androidx.navigation.ui.AppBarConfiguration;
 
 import androidx.navigation.ui.NavigationUI;
@@ -131,7 +125,6 @@ import androidx.navigation.ui.NavigationUI;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
- //       drawer = findViewById(R.id.drawer_layout);
         bottomNavigation = findViewById(R.id.nav_view);
         geofence = new ArrayList<>();
         createNotificationChannel();
@@ -143,36 +136,6 @@ import androidx.navigation.ui.NavigationUI;
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(bottomNavigation, navController);
         bottomNavigation.setOnNavigationItemSelectedListener(this.navigationItemSelectedListener);
-/*        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
-            {
-                if(menuItem.getItemId() == R.id.nav_tools)
-                {
-                    Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
-                    startActivity(intent);
-                }
-                else if(menuItem.getItemId() == R.id.nav_logout)
-                {
-                    AuthUI.getInstance().signOut(MainActivity.this).addOnCompleteListener(new OnCompleteListener<Void>()
-                    {
-                                public void onComplete(@NonNull Task<Void> task)
-                                {
-                                    finish();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
-                            );
-                }
-                boolean result = NavigationUI.onNavDestinationSelected(menuItem, navController);
-                drawer.closeDrawers();
-                return result;
-            }
-        }
-        );*/
-        final FloatingActionButton fab = this.findViewById(R.id.fab);
         dataBase = new DataBase(this);
         dataBase.setupItem();
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -452,6 +415,7 @@ import androidx.navigation.ui.NavigationUI;
                                                 }
                          );
              }
+             navController.popBackStack(R.id.nav_home, false);
              boolean result=NavigationUI.onNavDestinationSelected(menuItem, navController);
              return result;
          }

@@ -274,7 +274,8 @@ import androidx.appcompat.app.AlertDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(Text);
         builder.setTitle("list to link");
         String[] items = new String[itemArrayList.size()];
-        for (int i = 0; i < items.length; i++)
+        chosenShopID=0;
+        for(int i = 0; i < items.length; i++)
         {
             items[i] = itemArrayList.get(i).getName();
         }

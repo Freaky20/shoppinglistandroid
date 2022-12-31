@@ -3,14 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/clear"
-        android:textSize="20sp"
-        style="?android:listSeparatorTextViewStyle" />-->
-
     <Button
         android:id="@+id/clear"
         android:layout_height="wrap_content"

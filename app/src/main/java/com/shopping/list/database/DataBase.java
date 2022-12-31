@@ -604,7 +604,7 @@ import java.util.Locale;
          try
          {
              DB=Help.getWritableDatabase();
-             Cursor cursor=DB.rawQuery("SELECT id FROM Location where geofenced = 1 AND shopid = " + shopID, null);
+             Cursor cursor=DB.rawQuery("SELECT id FROM Location where geofence = 1 AND shopid = " + shopID, null);
              while(cursor.moveToNext())
              {
                  locationID=(cursor.getInt(0));

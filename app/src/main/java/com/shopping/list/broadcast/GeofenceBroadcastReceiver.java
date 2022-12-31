@@ -100,15 +100,22 @@ import static androidx.constraintlayout.widget.StateSet.TAG;
          {
              List<Geofence> triggeringGeofence=geofencingEvent.getTriggeringGeofences();
              String geofenceTransitionDetails=getGeofenceTransitionDetails(geofenceTransition, triggeringGeofence);
-             for(Geofence geofence:triggeringGeofence )
+             for(Geofence geofence:triggeringGeofence)
              {
-                 String geofenceID=geofence.getRequestId();
-                 Location location=DB.getLocation(Integer.parseInt(geofenceID));
-                 String shopName=DB.getShopList(location.getShoppingListID()).getName();
-                 boolean Geofence=location.isGeofence();
-                 if(!shopName.isEmpty()&&Geofence)
+                 try
                  {
-                     sendNotification(text,geofenceID,shopName);
+                     String geofenceID=geofence.getRequestId();
+                     Location location=DB.getLocation(Integer.parseInt(geofenceID));
+                     String shopName=DB.getShopList(location.getShoppingListID()).getName();
+                     boolean Geofence=location.isGeofence();
+                     if(!shopName.isEmpty()&&Geofence)
+                     {
+                         sendNotification(text,geofenceID,shopName);
+                     }
+                 }
+                 catch(Exception e)
+                 {
+                     e.printStackTrace();
                  }
              }
              Log.i(TAG,geofenceTransitionDetails);
