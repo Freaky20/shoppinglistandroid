@@ -101,7 +101,7 @@ public class SlideshowFragment extends Fragment
             shopID = 0;
         }
         mainViewModel=ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        String title="Shop Locations";
+        String title="Shop Locations ";
         if(shopName!=null){
             title+=shopName;
         }
@@ -133,6 +133,7 @@ public class SlideshowFragment extends Fragment
         );
         listView = (ListView) root.findViewById(R.id.locationListView);
         listView.setEmptyView(root.findViewById(R.id.emptyElement));
+        listView.setDivider(null);
         loadData(false);
         return root;
     }

@@ -88,6 +88,7 @@ public class ShareFragment extends Fragment implements ItemViewAdapter.AddItem
         View root = inflater.inflate(R.layout.fragment_share, container, false);
         listView = (ListView) root.findViewById(R.id.itemView);
         listView.setEmptyView(root.findViewById(R.id.emptyElement));
+        listView.setDivider(null);
         sortView(false, "");
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()

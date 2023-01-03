@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
+
 import com.shopping.list.model.Location;
 
 import com.shopping.list.model.ShoppingList;
@@ -106,6 +108,7 @@ import androidx.appcompat.app.AlertDialog;
         final TextView shopName=view.findViewById(R.id.shopNameLabel);
         final DataBase dataBase=new DataBase(Text);
         final Location location= L.get(p);
+        final SwipeRevealLayout swipeRevealLayout = (SwipeRevealLayout)view.findViewById(R.id.swipe_layout);
         String shopNameText="";
         if(location.isGeofence())
         {
@@ -200,6 +203,7 @@ import androidx.appcompat.app.AlertDialog;
                         if(deleteLocation(location))
                         {
                             delete(p);
+                            swipeRevealLayout.close(false);
                             dialog.dismiss();
                         }
                     }

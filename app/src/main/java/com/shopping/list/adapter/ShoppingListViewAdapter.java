@@ -121,7 +121,7 @@ import com.shopping.list.database.DataBase;
                                           @Override
                                           public void onClick(View v)
                                           {
-                                              showPickMenu(v);
+                                              showPickMenu(v,deleteImage,linkImage);
                                           }
                                       }
          );
@@ -166,7 +166,7 @@ import com.shopping.list.database.DataBase;
         }
      }
 
-     private void extracted(ViewGroup parent)
+     private void extracted(ViewGroup parent,ImageView deleteImage,ImageView linkImage)
      {
         AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
         builder.setTitle("Delete this shopping list?");
@@ -174,8 +174,8 @@ import com.shopping.list.database.DataBase;
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                int position = (int) view.findViewById(R.id.link_button).getTag();
-                int shopID = (int) view.findViewById(R.id.delete_button).getTag();
+                int position = (int)linkImage.getTag();
+                int shopID = (int)deleteImage.getTag();
                 deleteItem(position, shopID);
                 dialog.dismiss();
             }
@@ -193,7 +193,7 @@ import com.shopping.list.database.DataBase;
         dialog.show();
      }
 
-     private void showPickMenu(View anchor)
+     private void showPickMenu(View anchor,ImageView deleteImage,ImageView linkImage)
      {
         PopupMenu popupMenu=new PopupMenu(Text, anchor);
         popupMenu.inflate(R.menu.more);
@@ -207,14 +207,14 @@ import com.shopping.list.database.DataBase;
                     case R.id.link:
 
                         linkShops=(LinkShops)parent.getContext();
-                        int id=(int)view.findViewById(R.id.delete_button).getTag();
+                        int id=(int)deleteImage.getTag();
                         String name=(String)view.findViewById(R.id.name).getTag();
-                        linkShops.sendLinkShops(name, id);
+                        linkShops.sendLinkShops(name,id);
                         break;
 
                     case R.id.delete:
 
-                        extracted(parent);
+                        extracted(parent,deleteImage,linkImage);
                         break;
 
                 }

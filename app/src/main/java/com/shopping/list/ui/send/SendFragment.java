@@ -69,6 +69,7 @@ public class SendFragment extends Fragment
          root = inflater.inflate(R.layout.fragment_send, container, false);
         listView = (ListView) root.findViewById(R.id.itemListView);
         listView.setEmptyView(root.findViewById(R.id.emptyElement));
+        listView.setDivider(null);
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
                                {
