@@ -283,7 +283,7 @@ public class ShareFragment extends Fragment implements ItemViewAdapter.AddItem
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         String previous = lastLocation ? " previous" : "";
-        builder.setTitle("Do you want to Geofence to this" + previous + " location?");
+        builder.setTitle("Do you want to Geofence to this" + previous + " places?");
         builder.setMessage(location.getName());
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
         {
@@ -291,7 +291,7 @@ public class ShareFragment extends Fragment implements ItemViewAdapter.AddItem
             {
                 if(location.isGeofence())
                 {
-                    showError("Location already geofence!", getContext());
+                    showError("places already geofence!", getContext());
                 }
                 else{
                     location.setGeofence(true);

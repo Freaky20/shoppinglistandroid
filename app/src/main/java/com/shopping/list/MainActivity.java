@@ -130,7 +130,7 @@ import androidx.navigation.ui.NavigationUI;
         createNotificationChannel();
         mAuth = FirebaseAuth.getInstance();
         geofencingClient = LocationServices.getGeofencingClient(this);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_slideshow, R.id.nav_share, R.id.nav_send).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home,R.id.nav_recipe, R.id.nav_slideshow).setDrawerLayout(drawer).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigation, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);

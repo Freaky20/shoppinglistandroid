@@ -112,13 +112,11 @@ import androidx.appcompat.app.AlertDialog;
         String shopNameText="";
         if(location.isGeofence())
         {
-            //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
             simpleCheckedTextView.setChecked(true);
             shopNameText=dataBase.getShopListName(location.getShoppingListID());
         }
         else
         {
-            //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
             simpleCheckedTextView.setChecked(false);
         }
         shopName.setText(shopNameText);
@@ -133,7 +131,7 @@ import androidx.appcompat.app.AlertDialog;
                     if(simpleCheckedTextView.isChecked())
                     {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-                        builder.setTitle("you want to remove from Geofence?");
+                        builder.setTitle("you want to remove this place from Geofence?");
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                         {
                             public void onClick(DialogInterface dialog, int id)
@@ -167,7 +165,7 @@ import androidx.appcompat.app.AlertDialog;
                                 }
                                 else
                                 {
-                                    Error("Only 1 shop to a list at a time");
+                                    Error("Only 1 place to a list can be geofence at a time");
                                 }
                             }
                             else
@@ -177,13 +175,13 @@ import androidx.appcompat.app.AlertDialog;
                         }
                         else
                         {
-                            Error("Location already linked to a list");
+                            Error("place already linked to a list");
                         }
                     }
                 }
                 else
                 {
-                    Toast.makeText(Text, "check Location services or google maps.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Text, "check Location services or google maps is on.", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -195,7 +193,7 @@ import androidx.appcompat.app.AlertDialog;
             public void onClick(View v)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-                builder.setTitle("you want to delete?");
+                builder.setTitle("you want to delete this place?");
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int id)
@@ -269,14 +267,14 @@ import androidx.appcompat.app.AlertDialog;
         }
         else
         {
-            Error("No list to link");
+            Error("No list available to link");
         }
     }
 
     public void displaySuggested(final ArrayList<ShoppingList> itemArrayList, final Location l, final int p)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-        builder.setTitle("list to link");
+        builder.setTitle("available list to link");
         String[] items = new String[itemArrayList.size()];
         chosenShopID=0;
         for(int i = 0; i < items.length; i++)

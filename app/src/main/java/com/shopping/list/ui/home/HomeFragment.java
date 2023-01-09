@@ -106,7 +106,7 @@ import java.util.ArrayList;
 
     private void addShopList(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Shop List");
+        builder.setTitle("Add new List");
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View myView = inflater.inflate(R.layout.dialog_add_shop_list, null);
         builder.setView(myView);
@@ -128,7 +128,7 @@ import java.util.ArrayList;
                     }
                     else
                     {
-                        Toast.makeText(getContext(), "Item already exists!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "list already exists!", Toast.LENGTH_LONG).show();
                     }
                 }
             }

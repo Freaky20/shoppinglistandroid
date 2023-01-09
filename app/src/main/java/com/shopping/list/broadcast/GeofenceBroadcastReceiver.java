@@ -49,7 +49,7 @@ import static androidx.constraintlayout.widget.StateSet.TAG;
 
      private Notification createNotification(String message,PendingIntent notificationPendingIntent,Context context)
      {
-         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,CHANNEL_ID).setSmallIcon(R.drawable.notification_icon).setColor(Color.GREEN).setContentTitle("You've reached your shopping list destination!").setContentText("click to open " + message + " list").setContentIntent(notificationPendingIntent).setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND).setAutoCancel(true).setPriority(NotificationCompat.PRIORITY_DEFAULT);
+         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,CHANNEL_ID).setSmallIcon(R.drawable.notification_icon).setColor(Color.BLUE).setContentTitle("You arrived your list destination!").setContentText("click to open " + message + " list").setContentIntent(notificationPendingIntent).setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND).setAutoCancel(true).setPriority(NotificationCompat.PRIORITY_DEFAULT);
          return builder.build();
      }
 

@@ -116,12 +116,13 @@ import com.shopping.list.database.DataBase;
          DataObjectHolder dataObjectHolder=new DataObjectHolder(view);
          ImageView deleteImage=(ImageView) view.findViewById(R.id.delete_button);
          ImageView linkImage=(ImageView) view.findViewById(R.id.link_button);
+         TextView label=(TextView) view.findViewById(R.id.name);
          linkImage.setOnClickListener(new View.OnClickListener()
                                       {
                                           @Override
                                           public void onClick(View v)
                                           {
-                                              showPickMenu(v,deleteImage,linkImage);
+                                              showPickMenu(v,deleteImage,linkImage,label);
                                           }
                                       }
          );
@@ -193,7 +194,7 @@ import com.shopping.list.database.DataBase;
         dialog.show();
      }
 
-     private void showPickMenu(View anchor,ImageView deleteImage,ImageView linkImage)
+     private void showPickMenu(View anchor,ImageView deleteImage,ImageView linkImage,TextView label)
      {
         PopupMenu popupMenu=new PopupMenu(Text, anchor);
         popupMenu.inflate(R.menu.more);
@@ -208,7 +209,7 @@ import com.shopping.list.database.DataBase;
 
                         linkShops=(LinkShops)parent.getContext();
                         int id=(int)deleteImage.getTag();
-                        String name=(String)view.findViewById(R.id.name).getTag();
+                        String name=(String)label.getTag();
                         linkShops.sendLinkShops(name,id);
                         break;
 

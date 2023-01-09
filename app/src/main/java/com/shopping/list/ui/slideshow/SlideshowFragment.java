@@ -126,7 +126,7 @@ public class SlideshowFragment extends Fragment
                 }
                 else
                 {
-                    Toast.makeText(getActivity(), "check Location services or google maps.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "check Location services or google maps is on.", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -285,7 +285,7 @@ public class SlideshowFragment extends Fragment
     public void geofenceLocation(final LatLng latLng, final int locationID)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("want to geofence this location?");
+        builder.setTitle("want to geofence this place?");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
@@ -293,7 +293,7 @@ public class SlideshowFragment extends Fragment
                 Location location = dataBase.getLocation(locationID);
                 if(dataBase.checkListIsGeofence(shopID))
                 {
-                    showError("Shopping List already geofence!", getContext());
+                    showError("List already geofence!", getContext());
                 }
                 else
                 {

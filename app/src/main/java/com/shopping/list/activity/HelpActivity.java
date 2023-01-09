@@ -27,7 +27,7 @@ import com.shopping.list.R;
          mViewPager = (ViewPager) findViewById(R.id.pager);
          int[] mResources =
                 {
-                R.drawable.end_screen
+                R.drawable.welcome_page
                 };
          HelpPagerAdapter mCustomPagerAdapter = new HelpPagerAdapter(this, mResources);
          mViewPager.setAdapter(mCustomPagerAdapter);

@@ -241,14 +241,14 @@ import com.shopping.list.database.DataBase;
         {
             view = inflater.inflate(R.layout.clear_item_list, null);
             TextView separatorView = (TextView) view.findViewById(R.id.clear);
-            separatorView.setText("Remove tick items");
+            separatorView.setText("Remove tick Items");
             separatorView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-                    builder.setTitle("you want to delete ?");
+                    builder.setTitle("you want to delete this Item ?");
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int id)
@@ -293,13 +293,11 @@ import com.shopping.list.database.DataBase;
             final ItemList item = IL.get(p);
             if (item.isBought())
             {
-                //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_on);
                 simpleCheckedTextView.setPaintFlags(simpleCheckedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 simpleCheckedTextView.setChecked(true);
             }
             else
             {
-                //simpleCheckedTextView.setCheckMarkDrawable(R.drawable.ic_check_button);
                 simpleCheckedTextView.setPaintFlags(simpleCheckedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 simpleCheckedTextView.setTextColor(Text.getColor(android.R.color.black));
                 simpleCheckedTextView.setChecked(false);
@@ -338,7 +336,7 @@ import com.shopping.list.database.DataBase;
                 public void onClick(View v)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-                    builder.setTitle("Are you sure you want to delete?");
+                    builder.setTitle("you want to delete this product ?");
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int id)

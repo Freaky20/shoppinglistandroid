@@ -192,7 +192,7 @@ import com.shopping.list.database.DataBase;
                                                 public void onClick(View v)
                                                 {
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(Text);
-                                                    builder.setTitle("you want to delete?");
+                                                    builder.setTitle("you want to delete this product ?");
                                                     builder.setCancelable(false);
                                                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                                                             {
